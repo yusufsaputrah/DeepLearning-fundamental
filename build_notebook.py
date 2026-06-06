@@ -122,12 +122,12 @@ test_loader = DataLoader(SentimentDataset(X_test_dl, y_test_dl), batch_size=64)
 """)
 
 add_code("""class BiLSTM(nn.Module):
-    def __init__(self, vocab_size, embed_dim, hidden_dim, output_dim, num_layers=2):
+    def __init__(self, vocab_size, embed_dim, hidden_dim, output_dim, num_layers=1):
         super().__init__()
         self.embedding = nn.Embedding(vocab_size, embed_dim, padding_idx=0)
-        self.lstm = nn.LSTM(embed_dim, hidden_dim, num_layers=num_layers, bidirectional=True, batch_first=True, dropout=0.3)
+        self.lstm = nn.LSTM(embed_dim, hidden_dim, num_layers=num_layers, bidirectional=True, batch_first=True)
         self.fc = nn.Linear(hidden_dim * 2, output_dim)
-        self.dropout = nn.Dropout(0.3)
+        self.dropout = nn.Dropout(0.5)
         
     def forward(self, text):
         embedded = self.dropout(self.embedding(text))
@@ -137,13 +137,13 @@ add_code("""class BiLSTM(nn.Module):
         return self.fc(hidden)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-model = BiLSTM(len(vocab) + 2, 256, 128, 3, num_layers=2).to(device)
+model = BiLSTM(len(vocab) + 2, 128, 128, 3).to(device)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 # Training Loop
-epochs = 12
+epochs = 8
 for epoch in range(epochs):
     model.train()
     train_loss = 0
