@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environments
+venv/
+env/
+.venv/
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Zip or compressed files
+*.zip
+*.tar.gz
+*.rar
+
+# If you want to ignore datasets (uncomment if needed)
+# *.csv
+# *.json
